@@ -1,0 +1,43 @@
+spring:
+  application:
+    name: book
+  datasource:
+    url: jdbc:postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DATABASE}?currentSchema=${POSTGRES_SCHEMA:public}&search_path==${POSTGRES_SCHEMA:public}
+    username: ${POSTGRES_USERNAME}
+    password: ${POSTGRES_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  kafka:
+    bootstrap-servers: ${KAFKA_SERVER}:${KAFKA_PORT}
+    consumer:
+      group-id: log-group
+    producer:
+      retries: 5
+      properties:
+        retry.backoff.ms: 1000
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jws-algorithms: RS512
+          issuer-uri: ${JWT_ISSUER_URI}
+          jwk-set-uri: ${JWK_SET_URI}
+
+kafka-topic: log-message
+
+
+
+
+server:
+  port: ${APPLICATION_PORT:8060}
+  servlet:
+    context-path: "/book"
+
+logging:
+  file:
+    path: /var/log/book

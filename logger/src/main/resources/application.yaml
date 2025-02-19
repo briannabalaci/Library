@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: logger
+  kafka:
+    bootstrap-servers: ${KAFKA_SERVER}:${KAFKA_PORT}
+    consumer:
+      group-id: log-group
+
+kafka-topic: log-message
+
+server:
+  port: ${APPLICATION_PORT:8020}
+  servlet:
+    context-path: "/logger"
+
+logging:
+  file:
+    path: /var/log/logger
